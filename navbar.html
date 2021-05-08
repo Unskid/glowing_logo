@@ -1,0 +1,48 @@
+<nav class="navbar navbar-default" id="mainNavbar" style="">
+    <div class="container-fluid" >          
+        <ul class="nav navbar-nav"  id="links">
+        <li><a href="index.html">DASHBOARD</a></li>
+      </ul>
+    </div>
+  </nav>
+
+
+<script>
+    const parent_links = document.getElementById("links");
+    const linksData = {
+        hrefs: ["icon.html","profile.html"],
+        text : ["ICON","PROFILES"],
+        start : ()=> {
+            for (let i = 0;i<linksData.hrefs.length;i++){ 
+               //parent_links.appendChild(document.createElement("li").appendChild(document.createElement("a")));
+               let a_link = document.createElement("a");
+               let li = document.createElement("li")
+               a_link.href = linksData.hrefs[i];
+               a_link.textContent = linksData.text[i];
+               parent_links.appendChild(li).appendChild(a_link)
+            }
+        }}
+            const interval = setInterval(()=>{
+                console.log("TIMEOUTING")
+                if(file.connected){
+                    linksData.start();
+                    clearTimeout(interval)
+                }
+            },1000)
+
+   const navbar_links = parent_links.childNodes;
+   for (let i = 0;i<navbar_links.length;i++){
+        navbar_links[i].addEventListener("click",()=>{
+            navbar_links[i].firstChild.classList.add("active");
+            /*for (let x = 0;i<navbar_links.length;x++){
+                if (x != i){
+                    try{
+                        navbar_links[x].firstChild.classList.remove("active");
+                    }
+                    catch(e){
+                    }
+                }
+            }*/
+        })
+   }
+</script>

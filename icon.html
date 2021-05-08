@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Modes</title>
+    <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script>window.$ = window.jQuery = require('jquery');</script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+    <link type="text/css" rel="stylesheet" href="styles.css"/>
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+    <script src="externalScripts.js"></script>
+   <script>
+        $(function(){
+    $("#navbar").load("navbar.html");
+    $("#mainNavbar").css("background",getColor()+" !important")
+})
+    </script>
+</head>
+<style>
+    .container_buttons{
+        display: flex;
+        gap: 5%;
+        justify-content: center;
+    }
+</style>
+<body style="background: black;">
+    <div id="navbar"></div>
+      <div style="text-align: center;margin: auto;" class="card">
+        <svg width="256px" height="315px" id="apple_logo" viewBox="0 0 256 315" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid">
+            <g>
+                <path d="M213.803394,167.030943 C214.2452,214.609646 255.542482,230.442639 256,230.644727 C255.650812,231.761357 249.401383,253.208293 234.24263,275.361446 C221.138555,294.513969 207.538253,313.596333 186.113759,313.991545 C165.062051,314.379442 158.292752,301.507828 134.22469,301.507828 C110.163898,301.507828 102.642899,313.596301 82.7151126,314.379442 C62.0350407,315.16201 46.2873831,293.668525 33.0744079,274.586162 C6.07529317,235.552544 -14.5576169,164.286328 13.147166,116.18047 C26.9103111,92.2909053 51.5060917,77.1630356 78.2026125,76.7751096 C98.5099145,76.3877456 117.677594,90.4371851 130.091705,90.4371851 C142.497945,90.4371851 165.790755,73.5415029 190.277627,76.0228474 C200.528668,76.4495055 229.303509,80.1636878 247.780625,107.209389 C246.291825,108.132333 213.44635,127.253405 213.803394,167.030988 M174.239142,50.1987033 C185.218331,36.9088319 192.607958,18.4081019 190.591988,0 C174.766312,0.636050225 155.629514,10.5457909 144.278109,23.8283506 C134.10507,35.5906758 125.195775,54.4170275 127.599657,72.4607932 C145.239231,73.8255433 163.259413,63.4970262 174.239142,50.1987249" 
+                fill="#ffffff"></path>
+            </g>
+        </svg>
+        <div class="container" style="display:grid;">
+            <div class="row text-center" id="container">
+
+            </div>
+           
+        </div>
+    </div>
+</body>
+<script>
+    const container = document.getElementById("container");
+    const apple_logo = document.getElementById("apple_logo");
+    apple_logo.firstElementChild.firstElementChild.style.fill = getColor();
+    const electron = require('electron');
+    const {ipcRenderer} = electron;
+    const mainDiv = document.getElementsByClassName("card").item(0)
+    container.classList.add("container_buttons")
+    const btns = ["FADE","SMOOTH","RANDOM","FLASH"]
+    const colors = ["#00FFFF","#B99AFF","chartreuse","#FFDD00"]
+    const jsonColor = getColor();
+    for (let i =0;i<4;i++){
+        let div1 = document.createElement("div");
+        let create_div = container.appendChild(div1);
+        div1.className = "col-4";
+        let div2 = document.createElement("div");
+        div2.className = "btn"
+        let create_div2 = create_div.appendChild(div2);
+        let a_link_btn = document.createElement("a");
+        a_link_btn.style.color = jsonColor;
+        $(a_link_btn).hover(function(){
+            $(this).css("box-shadow",`0 0 5px`+jsonColor+", 0 0 25px"+jsonColor+", 0 0 50px"+jsonColor+", 0 0 200px"+jsonColor);
+            $(this).css("background",jsonColor);
+            $(this).css("color","#000");
+        });
+        $(a_link_btn).mouseleave(function(){
+            $(this).css("background","");
+            $(this).css("box-shadow","");
+            $(this).css("color",jsonColor);
+        })
+        a_link_btn.textContent = btns[i];
+        let create_a_link = create_div2.appendChild(a_link_btn);
+        for (let x = 0;x<4;x++){
+            const angles = ["90deg","180deg","270deg","360deg"];
+            let span = document.createElement("span");
+            span.style.background = "linear-gradient("+angles[x]+",transparent,"+jsonColor+")";
+            create_a_link.appendChild(span);
+            console.log(jsonColor);
+            
+        }
+        function getRandomColor() {
+                    var letters = '0123456789ABCDEF';
+                    var color = '#';
+                    for (var i = 0; i < 6; i++) {
+                        color += letters[Math.floor(Math.random() * 16)];
+                    }
+                    file.currentLogoColor = color;
+                    writeToJson();
+                    return color;
+                    
+                    }
+        div2.addEventListener("click",(event)=>{
+            
+            //div2.firstElementChild.style += "color: #050801;-webkit-box-reflect:below 1px linear-gradient(transparent, #0005);"
+                //div2.firstElementChild.childNodes[0].style = ""
+            
+            if (apple_logo.style.animation == "0.5s ease 0s infinite normal none running "+ event.path[0].textContent){
+                apple_logo.style.animation = "";
+            }
+            else{
+                apple_logo.style.animation = "0.5s "+event.path[0].textContent+" infinite"
+            }
+            if (event.path[0].textContent == "SMOOTH"){
+                let interval;
+                if (!interval){
+                interval = setInterval(()=>{
+                    $(apple_logo).fadeOut(6000);
+                    $(apple_logo).fadeIn(6000);
+                    let rndColor = getRandomColor();
+                    apple_logo.firstElementChild.firstElementChild.style.fill = rndColor;
+                    console.log(rndColor)
+                },5000)
+            }
+            else{
+                clearInterval(interval)
+            }
+            }
+            if (event.path[0].textContent == "FADE"){
+                let interval1;
+                if (!interval1){
+                interval1 = setInterval(()=>{
+                    $(apple_logo).fadeOut(3000);
+                    $(apple_logo).fadeIn(3000);
+                })
+            }
+            else{
+                clearInterval(interval1);
+            }
+
+            }
+            if (event.path[0].textContent == "RANDOM"){
+                let interval;
+                if (!interval){
+                interval = setInterval(()=>{
+                    let rndColor = getRandomColor();
+                    apple_logo.firstElementChild.firstElementChild.style.fill = rndColor;
+                    console.log(rndColor)
+                },3000)
+            }
+            else{
+                clearInterval(interval)
+            }
+            }
+           console.log(event.path[0].textContent);
+           ipcRenderer.send(event.path[0].textContent);
+           h3.textContent = "Current mode "+event.path[0].textContent;
+        })
+    }
+    let h3 = document.createElement("h3");
+    let create_h3 = mainDiv.appendChild(h3);
+</script>
+</html>
