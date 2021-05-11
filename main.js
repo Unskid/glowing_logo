@@ -8,8 +8,8 @@ var lcd;
 const BrowserWindow = electron.BrowserWindow
 const ipcRenderer = electron.ipcMain
 var five = require('johnny-five');
-var board = new five.Board();
-console.log(err);
+var board = new five.Board({port:"COM3"});
+board.blink()
 let is_board_ready = false;
 
 const spin = new TouchBarButton({
