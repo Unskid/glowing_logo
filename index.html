@@ -34,44 +34,27 @@
 </body>
 <script>
     const apple_logo = document.getElementById("apple_logo");
+    const miniText = document.getElementById("mode");  
     apple_logo.firstElementChild.firstElementChild.style.fill = getColor();
     const electron = require('electron');
-    const miniText = document.getElementById("mode");
     const {ipcRenderer} = electron;
     const btn = document.getElementById("btn");
-    if (file.connected){
-        miniText.textContent = "Device connected!";
-        apple_logo.style.opacity = "1";
-        apple_logo.style.animation = "";
-    }
-    else{
-    ipcRenderer.send("pages-list","index");
-   // timeout = setTimeout (()=>{
+   timeout = setInterval (()=>{
         console.log(12)
-        ipcRenderer.send("is-connected");
-        ipcRenderer.on("is-connected",function (event,args){
-            console.log(args)
-            miniText.textContent = args;
             if (miniText.textContent == "Device connected!"){
-                file.connected = true;
-                writeToJson();
                 apple_logo.style.animation = "2s turnup";
                 apple_logo.style.opacity = "1"
                 console.log("turnup")
-                //clearTimeout(timeout)
+                clearInterval(timeout)
             }
             else{
                 console.log("else");
                 apple_logo.style.animation = "";
-                file.connected = false;
-                writeToJson()
             }
-        })
-    //},6000);
+    },6000);
 if (miniText.textContent != "Device connected!"){
     miniText.textContent = "Searching..."
 }
-    }
   //  while (miniText != "Device connected!"){
      /* window.onload = function () {for (let i = 0;i<10;i++){
         console.log(1)

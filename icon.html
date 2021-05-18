@@ -48,13 +48,12 @@
     const container = document.getElementById("container");
     const apple_logo = document.getElementById("apple_logo");
     apple_logo.firstElementChild.firstElementChild.style.fill = getColor();
-    const electron = require('electron');
-    const {ipcRenderer} = electron;
     const mainDiv = document.getElementsByClassName("card").item(0)
     container.classList.add("container_buttons")
     const btns = ["FADE","SMOOTH","RANDOM","FLASH"]
     const colors = ["#00FFFF","#B99AFF","chartreuse","#FFDD00"]
     const jsonColor = getColor();
+    
     for (let i =0;i<4;i++){
         let div1 = document.createElement("div");
         let create_div = container.appendChild(div1);
@@ -64,6 +63,7 @@
         let create_div2 = create_div.appendChild(div2);
         let a_link_btn = document.createElement("a");
         a_link_btn.style.color = jsonColor;
+
         $(a_link_btn).hover(function(){
             $(this).css("box-shadow",`0 0 5px`+jsonColor+", 0 0 25px"+jsonColor+", 0 0 50px"+jsonColor+", 0 0 200px"+jsonColor);
             $(this).css("background",jsonColor);
@@ -76,14 +76,15 @@
         })
         a_link_btn.textContent = btns[i];
         let create_a_link = create_div2.appendChild(a_link_btn);
+        
         for (let x = 0;x<4;x++){
             const angles = ["90deg","180deg","270deg","360deg"];
             let span = document.createElement("span");
             span.style.background = "linear-gradient("+angles[x]+",transparent,"+jsonColor+")";
             create_a_link.appendChild(span);
-            console.log(jsonColor);
-            
+            console.log(jsonColor);     
         }
+
         function getRandomColor() {
                     var letters = '0123456789ABCDEF';
                     var color = '#';
@@ -123,6 +124,7 @@
             }
             if (event.path[0].textContent == "FADE"){
                 let interval1;
+                FADE();
                 if (!interval1){
                 interval1 = setInterval(()=>{
                     $(apple_logo).fadeOut(3000);
@@ -148,7 +150,6 @@
             }
             }
            console.log(event.path[0].textContent);
-           ipcRenderer.send(event.path[0].textContent);
            h3.textContent = "Current mode "+event.path[0].textContent;
         })
     }
