@@ -3,9 +3,11 @@ try{
   console.log(e);
 }
 const etrJsFile = require("./externalScripts.js");
+const temporal = require("temporal");
+var b = null;
 var five = require('johnny-five');
 try{
-var board = new five.Board({port:"COM4", repl: false});
+var board = new five.Board({port:"COM3", repl: false});
 }catch(e){
   console.log(e);
 }
@@ -17,11 +19,16 @@ board.on('ready',function(){
   miniText.textContent = "Device connected!";
   }catch(e){console.log(e);}
   console.log("ready")
-  var lcd = new five.LCD({ 
-    controller: "PCF8574"
-  })
-  lcd.useChar("heart")
-  //board.wait(5000)
+  b = new five.Led.RGB({
+    pins:{
+      red:11,
+      green:5,
+      blue:3
+    },
+    isAnode: true
+  });
+  b.color(getColor())
+});
 
 function SMOOTH(){
   let index = 0;
@@ -36,13 +43,25 @@ function SMOOTH(){
 
 }
 function FLASH(){
-  lcd.bgColor("#000000");
-  lcd.bgColor(etrJsFile.getColor());
+  setInterval(() =>{
+    b.toggle();
+  },3000)
 }
 function FADE(){
-  board.wait(5000,()=>{
-    led.fadeOut();
+  board.wait(3000,()=>{
+    b.toggle();
   })
+}
+function RAINBOW(){
+  var rainbow = ["FF0000", "FF7F00", "00FF00", "FFFF00", "0000FF", "4B0082", "8F00FF"];
+  var index = 0;
+
+  setInterval(function() {
+    if (index + 1 === rainbow.length) {
+      index = 0;
+    }
+    b.color(rainbow[index++]);
+  }, 500);
 }
 /*ipcRenderer.on("change-color",(e,color)=>{
   lcd.bgColor(color);
@@ -60,4 +79,3 @@ else{
 }
   
 }
-})

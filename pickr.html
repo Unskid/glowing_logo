@@ -42,9 +42,9 @@
         }
     });
     pickr.on('save', (color, instance) => {
-    console.log(color.toHEXA().toString());
+    console.log(color.toRGBA().slice(0,3).toString());
     console.log('Event: "save"', color, instance);
-    ipcRenderer.send("change-color",color.toHEXA().toString());
+    b.color(color.toHEXA().toString());
     file.currentLogoColor = color.toHEXA().toString();
     writeToJson();
     apple_logo.firstElementChild.firstElementChild.style.fill = color.toHEXA().toString();

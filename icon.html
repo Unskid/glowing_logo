@@ -107,6 +107,10 @@
             else{
                 apple_logo.style.animation = "0.5s "+event.path[0].textContent+" infinite"
             }
+            if (event.path[0].textContent == "FLASH"){
+                b.blink(300)
+                b.on()
+            }
             if (event.path[0].textContent == "SMOOTH"){
                 let interval;
                 if (!interval){
@@ -128,7 +132,9 @@
                 if (!interval1){
                 interval1 = setInterval(()=>{
                     $(apple_logo).fadeOut(3000);
+                    b.toggle();
                     $(apple_logo).fadeIn(3000);
+                    b.toggle();
                 })
             }
             else{
@@ -142,6 +148,7 @@
                 interval = setInterval(()=>{
                     let rndColor = getRandomColor();
                     apple_logo.firstElementChild.firstElementChild.style.fill = rndColor;
+                    b.color(rndColor);
                     console.log(rndColor)
                 },3000)
             }
